@@ -2,7 +2,7 @@
 
 Welcome to the documentation pages of the **Grace**!
 
-You can find here detailed information about the (sub)product, hereby mentioned as module, from a high-level vision to low-level implementation decisions, a kind of Software Development Report (see [template](https://github.com/softeng-feup/open-cx/blob/master/docs/templates/Development-Report.md)), organized by discipline (as of RUP): 
+You can find here detailed information about the (sub)product, hereby mentioned as "module", from a high-level vision to low-level implementation decisions, a kind of Software Development Report (see [template](https://github.com/softeng-feup/open-cx/blob/master/docs/templates/Development-Report.md)), organized by discipline (as of RUP): 
 
 * Business modeling 
   * [Product Vision](#Product-Vision)
@@ -23,7 +23,7 @@ You can find here detailed information about the (sub)product, hereby mentioned 
 So far, contributions are exclusively made by the initial team, but we hope to open them to the community, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
 
 **Please contact us!
-Thank you!**
+Thank you!** :relaxed:
 
 Mafalda Santos<br>
 Diogo Silva<br>
@@ -89,8 +89,8 @@ The app should be able to provide a fully functional interface to remotely contr
 &nbsp; 2. **System**: gets the request and replies with a confirmation that Grace is on its way. <br>
 &nbsp; 3. **User**: gets the feedback. <br>
 &nbsp; 4. **System**: sends Grace. <br>
-&nbsp; 5. **User**: cancels request. <br>
-&nbsp; 6. **System**: receives request and sends Grace back.
+&nbsp; 5. **User**: cancels the request. <br>
+&nbsp; 6. **System**: receives the request and sends Grace back.
 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; If Grace is unavailable, the system sends feedback accordingly and the user is put on a waiting list.
 
@@ -141,91 +141,81 @@ To better understand the context of the software system, it is very useful to ha
 
 There two main user roles: the **conference participant** and the **administrator**. The former summons Grace and the latter controls it.
 
-> As an administrator, I should be able to make the robot move.
+> 1. As an administrator, I should be able to make the robot move.
 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I'm controlling the robot <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I press a keyboard key <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then the robot will act accordingly.
 
 &nbsp; **Value Category:** Must Have <br>
-&nbsp; **Effort:** XL
+&nbsp; **Effort:** M
 
-> As an administrator, I should be able to change the robot's speed.
-
+[comment]: <> (> 2. As an administrator, I should be able to change the robot's speed.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I'm controlling the robot <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I change the slider position <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then the robot will change its speed accordingly.
-
 &nbsp; **Value Category:** Must Have <br>
-&nbsp; **Effort:** L
+&nbsp; **Effort:** L)
 
-> As an administrator, I should be able to see the robot's route.
-
+[comment]: <> (> 3. As an administrator, I should be able to see the robot's route.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I'm using the app <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I'm controlling the robot <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then I should see where the robot is heading.
-
 &nbsp; **Value Category:** Must Have <br>
-&nbsp; **Effort:** XL
+&nbsp; **Effort:** XL)
 
-> As an admnistrator, I should be able to interact with the "welcome app page".
-
+[comment]: <> (> 4. As an admnistrator, I should be able to interact with the "welcome app page".
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I open the app <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I push the "next" button <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then I expect the app to open a new page with the controller
-
 &nbsp; **Value Category:** Could Have <br>
-&nbsp; **Effort:** M
+&nbsp; **Effort:** M)
 
-> As an administrator, I should be able to make the robot stop.
-
+[comment]: <> (> 5. As an administrator, I should be able to make the robot stop.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that the robot is moving <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I'm not pressing any key <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then the robot should stop moving
-
 &nbsp; **Value Category:** Must Have <br>
-&nbsp; **Effort:** M
+&nbsp; **Effort:** M)
 
-> As an administrator, I should be able to control the robot's movement with the app's built-in joystick.
-
+[comment]: <> (> 6. As an administrator, I should be able to control the robot's movement with the app's built-in joystick.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I'm controlling the robot <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I manipulate the joystick <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then the robot will act accordingly
-
 &nbsp; **Value Category:** Must Have <br>
-&nbsp; **Effort:** XL
+&nbsp; **Effort:** XL)
 
-> As a user, I should be able to perform a security handshake with the robot.
-
+[comment]: <> (> 7. As a user, I should be able to perform a security handshake with the robot.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that the robot is near me <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I scan its QR code <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then the robot should greet me
-
 &nbsp; **Value Category:** Could Have <br>
-&nbsp; **Effort:** M
+&nbsp; **Effort:** M)
 
-> As a user, I should be able to call the robot.
-
+[comment]: <> (> 8. As a user, I should be able to call the robot.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I'm using the conference app <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I push the "call" button <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then the robot should come to me
-
 &nbsp; **Value Category:** Could Have <br>
-&nbsp; **Effort:** M
+&nbsp; **Effort:** M)
 
-> As an administrator, I should be able to change the robot mode to automatic.
-
+[comment]: <> (> 9. As an administrator, I should be able to change the robot mode to automatic.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I'm controlling the robot <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I push the "automatic" button <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then the robot enters standby mode
-
 &nbsp; **Value Category:** Could Have <br>
-&nbsp; **Effort:** M
+&nbsp; **Effort:** M)
 
 ---
 
 ## Architecture and Design
 The architecture of a software system encompasses the set of key decisions about its overall organization.
+
+* **Robot:** Uses **mechanical parts** controlled by an **Arduino** that is connected to a **Raspberry Pi** through **USB**.
+
+* **Raspberry Pi:** Runs **Robot Operative System (ROS)** on **Ubuntu** that interprets commands received through **Web Sockets** and sends it to the Robot. 
+
+* **Mobile App:** This the frontend component of the system, used by the user/admin to communicate with Grace through **Web Sockets**.
 
 [comment]: <> (A well written architecture document is brief but reduces the amount of time it takes new programmers to a project to understand the code to feel able to make modifications and enhancements.)
 
@@ -236,18 +226,28 @@ The architecture of a software system encompasses the set of key decisions about
 ### Logical Architecture
 [comment]: <> (The purpose of this subsection is to document the high-level logical structure of the code, using a UML diagram with logical packages, without the worry of allocating to components, processes or machines.)
 
-[comment]: <> (It can be beneficial to present the system both in a horizontal or vertical decomposition:
- horizontal decomposition may define layers and implementation concepts, such as the user interface, business logic and concepts; vertical decomposition can define a hierarchy of subsystems that cover all layers of implementation.)
+[comment]: <> (It can be beneficial to present the system both in a horizontal or vertical decomposition: horizontal decomposition may define layers and implementation concepts, such as the user interface, business logic and concepts; vertical decomposition can define a hierarchy of subsystems that cover all layers of implementation.)
+
+The mobile application will allow the user/admin to control the Robot's moves (via joystick). Depending on the indicated move, the app will send a different message to the "publisher node" (explained next) and therefore to the Robot, through a **Web Socket**.
+On the **Robot Operative System (ROS) Melodic** side of the project, two nodes are communicating under the *Publisher-Subscriber* protocol. One of them (*publisher*) will be receiving data from a **Web Socket**, translating them into a `geometry_msgs/Twist` type of message and publishing them to the `cmd_vel` topic. The other node (*subscriber*) will be using the received data to give instructions to the Robot's motor.
+
+![Publisher-Subscriber Diagram][pub_sub diagram]
 
 ### Physical Architecture
 [comment]: <> (The goal of this subsection is to document the high-level physical structure of the software system 'machines, connections, software components installed, and their dependencies' using UML deployment diagrams or component diagrams 'separate or integrated', showing the physical structure of the system.)
 
 [comment]: <> (It should describe also the technologies considered and justify the selections made. Examples of technologies relevant for openCX are, for example, frameworks for mobile applications 'Flutter vs ReactNative vs ...', languages to program with microbit, and communication with things 'beacons, sensors, etc.'.)
 
-### Prototype
-To help on validating all the architectural, design and technological decisions made, we usually implement a vertical prototype, a thin vertical slice of the system.
+For Grace to move, there are several **mechanical parts** powered by two motors and batteries. These parts are controlled by an **Arduino** that is connected to a **Raspberry Pi 4** through **USB**. The RPI is running **Robot Operative System (ROS) Melodic** on **Ubuntu 18.04.03 LTS** and contains a ROS package to interpret commands received through **Web Sockets** and another to control the motion of the Robot. Such instructions are input from a **mobile app** used by the user/admin, which was built with **Flutter**, an open-source UI software development kit that builds natively compiled applications from a single codebase.
 
-[comment]: <> (In this subsection please describe in more detail which, and how, user's' story'ies' were implemented.)
+![UML Deplyment Diagram][uml deployment diagram]
+
+### Prototype
+[comment]: <> (To help on validating all the architectural, design and technological decisions made, we usually implement a vertical prototype, a thin vertical slice of the system.)
+
+[comment]: <> (In this subsection please describe in more detail which, and how, users' story'ies' were implemented.)
+
+In [User Story #1](#User-stories), a ROS node was implemented to translate keyboard inputs into messages that can be read by a second node in charge of instructing the Robot's motor movements.
 
 ---
 
@@ -306,3 +306,5 @@ The following image shows our project's progress at a given time point:
 [comment]: <> ( -------- IMAGES -------- )
 [use case diagram]: ./res/use_case_diagram.png "Use Case Diagram"
 [trello]: ./res/trello.jpeg "Trello"
+[uml deployment diagram]: ./res/uml_deployment_diagram.jpeg "UML Deployment Diagram"
+[pub_sub diagram]: ./res/pub_sub.jpg "Publisher-subscriber Diagram"
