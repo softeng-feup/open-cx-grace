@@ -115,7 +115,7 @@ The app should be able to provide a fully functional interface to remotely contr
 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; If Grace stops receiving commands after a specific interval of time, it stops moving to avoid colliding. If **GraceVision** is turned ON and for an unexpected reason it stops working, the same behavior occurs.
 
-### User stories
+### User Stories
 This section will contain the requirements of the product described as **user stories**, organized in a global **[user story map](https://plan.io/blog/user-story-mapping/)** with **user roles** or **themes**.
 
 [comment]: <> (For each theme, or role, you may add a small description. User stories should be detailed in the tool you decided to use for project management 'e.g. trello or github projects'.)
@@ -150,26 +150,34 @@ There two main user roles: the **conference participant** and the **administrato
 &nbsp; **Value Category:** Must Have <br>
 &nbsp; **Effort:** M
 
-[comment]: <> (> 2. As an administrator, I should be able to change the robot's speed.
+> 2. As an administrator, I should be able to change the robot's speed.
+
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I'm controlling the robot <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I change the slider position <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then the robot will change its speed accordingly.
-&nbsp; **Value Category:** Must Have <br>
-&nbsp; **Effort:** L)
 
-[comment]: <> (> 3. As an administrator, I should be able to see the robot's route.
+&nbsp; **Value Category:** Must Have <br>
+&nbsp; **Effort:** L
+
+> 3. As an administrator, I should be able to see the robot's route.
+
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I'm using the app <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I'm controlling the robot <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then I should see where the robot is heading.
-&nbsp; **Value Category:** Must Have <br>
-&nbsp; **Effort:** XL)
 
-[comment]: <> (> 4. As an admnistrator, I should be able to interact with the "welcome app page".
+&nbsp; **Value Category:** Must Have <br>
+&nbsp; **Effort:** XL
+
+![App Mockup][app mockup]
+
+> 4. As an admnistrator, I should be able to interact with the "welcome app page".
+
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I open the app <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I push the "next" button <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then I expect the app to open a new page with the controller
+
 &nbsp; **Value Category:** Could Have <br>
-&nbsp; **Effort:** M)
+&nbsp; **Effort:** M
 
 [comment]: <> (> 5. As an administrator, I should be able to make the robot stop.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that the robot is moving <br>
@@ -178,33 +186,43 @@ There two main user roles: the **conference participant** and the **administrato
 &nbsp; **Value Category:** Must Have <br>
 &nbsp; **Effort:** M)
 
-[comment]: <> (> 6. As an administrator, I should be able to control the robot's movement with the app's built-in joystick.
+> 5. As an administrator, I should be able to control the robot's movement with the app's built-in joystick.
+
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I'm controlling the robot <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I manipulate the joystick <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then the robot will act accordingly
-&nbsp; **Value Category:** Must Have <br>
-&nbsp; **Effort:** XL)
 
-[comment]: <> (> 7. As a user, I should be able to perform a security handshake with the robot.
+&nbsp; **Value Category:** Must Have <br>
+&nbsp; **Effort:** XL
+
+![Joystick Mockup][joystick mockup]
+
+> 6. As a user, I should be able to perform a security handshake with the robot.
+
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that the robot is near me <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I scan its QR code <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then the robot should greet me
-&nbsp; **Value Category:** Could Have <br>
-&nbsp; **Effort:** M)
 
-[comment]: <> (> 8. As a user, I should be able to call the robot.
+&nbsp; **Value Category:** Could Have <br>
+&nbsp; **Effort:** M
+
+> 7. As a user, I should be able to call the robot.
+
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I'm using the conference app <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I push the "call" button <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then the robot should come to me
-&nbsp; **Value Category:** Could Have <br>
-&nbsp; **Effort:** M)
 
-[comment]: <> (> 9. As an administrator, I should be able to change the robot mode to automatic.
+&nbsp; **Value Category:** Could Have <br>
+&nbsp; **Effort:** M
+
+> 8. As an administrator, I should be able to change the robot mode to automatic.
+
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Given that I'm controlling the robot <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; When I push the "automatic" button <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Then the robot enters standby mode
+
 &nbsp; **Value Category:** Could Have <br>
-&nbsp; **Effort:** M)
+&nbsp; **Effort:** M
 
 ---
 
@@ -247,7 +265,7 @@ For Grace to move, there are several **mechanical parts** powered by two motors 
 
 [comment]: <> (In this subsection please describe in more detail which, and how, users' story'ies' were implemented.)
 
-In [User Story #1](#User-stories), a ROS node was implemented to translate keyboard inputs into messages that can be read by a second node in charge of instructing the Robot's motor movements.
+In [User Story #1](#User-Stories), a ROS node was implemented to translate keyboard inputs into messages that can be read by a second node in charge of instructing the Robot's motor movements.
 
 ---
 
@@ -308,3 +326,5 @@ The following image shows our project's progress at a given time point:
 [trello]: ./res/trello.jpeg "Trello"
 [uml deployment diagram]: ./res/uml_deployment_diagram.jpeg "UML Deployment Diagram"
 [pub_sub diagram]: ./res/pub_sub.jpg "Publisher-subscriber Diagram"
+[joystick mockup]: ./res/joystick_mockup.jpeg "Joystick Mockup"
+[app mockup]: ./res/app_mockup.png "App Mockup"
