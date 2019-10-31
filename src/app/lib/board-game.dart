@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flame/flame.dart';
@@ -9,12 +10,13 @@ import 'controller.dart';
 import 'grace.dart';
 
 class BoardGame extends Game {
-
   Size screenSize;
   double tileSize;
 
+  Socket socket;
   Controller controller;
   Grace grace;
+  String command;
 
   BoardGame() {
     initialize();
@@ -22,9 +24,9 @@ class BoardGame extends Game {
 
   void initialize() async {
     resize(await Flame.util.initialDimensions());
-
     controller = Controller(this);
     grace = Grace(this);
+    socket = await Socket.connect('192.168.1.50', 8080);
   }
 
   void resize(Size size) {
@@ -40,8 +42,12 @@ class BoardGame extends Game {
 
   @override
   void update(double t) {
-    controller.update(t);
+    command = controller.update(t);
     grace.update(t);
+    if (socket != null) {
+      socket.write(command);
+    }
+    //print(command);
   }
 
   void onPanStart(DragStartDetails details) {
@@ -55,5 +61,4 @@ class BoardGame extends Game {
   void onPanEnd(DragEndDetails details) {
     controller.onPanEnd(details);
   }
-
 }

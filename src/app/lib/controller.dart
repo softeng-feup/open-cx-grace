@@ -7,7 +7,6 @@ import 'dart:math';
 import 'board-game.dart';
 
 class Controller {
-
   final BoardGame game;
 
   double backgroundAspectRatio = 3;
@@ -33,27 +32,16 @@ class Controller {
     // image of the joystick
     var radius = (game.tileSize * backgroundAspectRatio) / 2;
 
-    Offset osBackground = Offset(
-        radius + (radius / 2) * 1.5,
-        game.screenSize.height - (radius + (radius / 2)) * 2
-    );
-    backgroundRect = Rect.fromCircle(
-        center: osBackground,
-        radius: radius
-    );
+    Offset osBackground = Offset(radius + (radius / 2) * 1.5,
+        game.screenSize.height - (radius + (radius / 2)) * 2);
+    backgroundRect = Rect.fromCircle(center: osBackground, radius: radius);
 
     // The circle radius calculation that will contain the knob
     // image of the joystick
     radius = (game.tileSize * knobAspectRatio) / 2;
 
-    Offset osKnob = Offset(
-        backgroundRect.center.dx,
-        backgroundRect.center.dy
-    );
-    knobRect = Rect.fromCircle(
-        center: osKnob,
-        radius: radius
-    );
+    Offset osKnob = Offset(backgroundRect.center.dx, backgroundRect.center.dy);
+    knobRect = Rect.fromCircle(center: osKnob, radius: radius);
     dragPosition = knobRect.center;
   }
 
@@ -62,15 +50,21 @@ class Controller {
     knobSprite.renderRect(canvas, knobRect);
   }
 
-  void update(double t) {
+  String update(double t) {
+    String result = "k";
     if (dragging) {
-      double _radAngle = atan2(
-          dragPosition.dy - backgroundRect.center.dy,
+      double _radAngle = atan2(dragPosition.dy - backgroundRect.center.dy,
           dragPosition.dx - backgroundRect.center.dx);
 
       // Update playerShip's player rad angle
       game.grace.lastMoveRadAngle = _radAngle;
+      print(_radAngle);
 
+      if (_radAngle < 0) {
+        result = "i";
+      } else if (_radAngle > 0) {
+        result = ",";
+      }
       // Distance between the center of joystick background & drag position
       Point p = Point(backgroundRect.center.dx, backgroundRect.center.dy);
       double dist = p.distanceTo(Point(dragPosition.dx, dragPosition.dy));
@@ -87,11 +81,10 @@ class Controller {
       double nextY = dist * sin(_radAngle);
       Offset nextPoint = Offset(nextX, nextY);
 
-      Offset diff = Offset(
-          backgroundRect.center.dx + nextPoint.dx,
-          backgroundRect.center.dy + nextPoint.dy) - knobRect.center;
+      Offset diff = Offset(backgroundRect.center.dx + nextPoint.dx,
+              backgroundRect.center.dy + nextPoint.dy) -
+          knobRect.center;
       knobRect = knobRect.shift(diff);
-
     } else {
       // The drag position is, at this moment, that of the center of the
       // background of the joystick. It calculates the difference between this
@@ -100,6 +93,7 @@ class Controller {
       Offset diff = dragPosition - knobRect.center;
       knobRect = knobRect.shift(diff);
     }
+    return result;
   }
 
   void onPanStart(DragStartDetails details) {
@@ -122,5 +116,4 @@ class Controller {
     // Stop move player ship
     game.grace.move = false;
   }
-
 }

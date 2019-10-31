@@ -92,8 +92,8 @@ class MyButton extends StatelessWidget {
     return Positioned(
       left: (x / 100) * MediaQuery.of(context).size.width,
       top: (y / 100) * MediaQuery.of(context).size.height,
-      width:100,
-      height:70,
+      width: 100,
+      height: 70,
       child: FloatingActionButton(
         onPressed: onPressed,
         backgroundColor: Colors.white,
@@ -122,7 +122,7 @@ class GraceCall extends StatelessWidget {
 }
 
 class MyJoystick extends StatelessWidget {
-  BoardGame game = BoardGame();
+  final BoardGame game = BoardGame();
 
   @override
   Widget build(BuildContext context) {

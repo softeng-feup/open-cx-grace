@@ -29,8 +29,8 @@ class Grace {
   void render(Canvas canvas) {
     canvas.save();
     canvas.translate(rect.center.dx, rect.center.dy);
-    
-    canvas.rotate(lastMoveRadAngle == 0.0 ? 0.0 : lastMoveRadAngle + (pi/2));
+
+    canvas.rotate(lastMoveRadAngle == 0.0 ? 0.0 : lastMoveRadAngle + (pi / 2));
     canvas.translate(-rect.center.dx, -rect.center.dy);
     sprite.renderRect(canvas, rect);
     canvas.restore();
