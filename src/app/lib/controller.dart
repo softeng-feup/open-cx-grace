@@ -60,11 +60,27 @@ class Controller {
       game.grace.lastMoveRadAngle = _radAngle;
       print(_radAngle);
 
-      if (_radAngle < 0) {
+      if (_radAngle < (-3 / 8) * pi && _radAngle > (-5 / 8) * pi) {
         result = "i";
-      } else if (_radAngle > 0) {
+      } else if (_radAngle <= (-1 / 8) * pi && _radAngle >= (-3 / 8) * pi) {
+        result = "o";
+      } else if (_radAngle < (1 / 8) * pi && _radAngle > (-1 / 8) * pi) {
+        result = "l";
+      } else if (_radAngle <= (3 / 8) * pi && _radAngle >= (1 / 8) * pi) {
+        result = ".";
+      } else if (_radAngle < (5 / 8) * pi && _radAngle > (3 / 8) * pi) {
         result = ",";
+      } else if (_radAngle <= (7 / 8) * pi && _radAngle >= (5 / 8) * pi) {
+        result = "m";
+      } else if ((_radAngle < pi && _radAngle > (7 / 8) * pi) ||
+          (_radAngle < (-7 / 8) * pi && _radAngle > (-1) * pi)) {
+        result = "j";
+      } else if (_radAngle <= (-5 / 8) * pi && _radAngle >= (-7 / 8) * pi) {
+        result = "u";
       }
+
+      print(result);
+
       // Distance between the center of joystick background & drag position
       Point p = Point(backgroundRect.center.dx, backgroundRect.center.dy);
       double dist = p.distanceTo(Point(dragPosition.dx, dragPosition.dy));

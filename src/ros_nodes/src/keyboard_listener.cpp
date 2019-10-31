@@ -2,13 +2,31 @@
 #include <geometry_msgs/Twist.h>
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <termios.h>
 #include <signal.h>
-
+#include <arpa/inet.h>
+#include <stdarg.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <netdb.h>
 #include <map>
 
+#define MAXLINE 4096
+#define PORT 8080
+#define SA struct sockaddr
+
 int alarm_flag = 0;
+
+/*
+Luís Sousa - lm.sousa@fe.up.pt / lm.sousa@ieee.org
+IEEE UP SB - nuieee@fe.up.pt
+*/
 
 // Map for movement keys
 std::map<char, std::vector<float>> moveBindings{
@@ -142,7 +160,7 @@ void publish_vel()
     // If ctrl-C (^C) was pressed, terminate the program
     if (key == '\x03')
     {
-            exit(0);
+      exit(0);
     }
 
     printf("\rCurrent: speed %f\tturn %f | Invalid command! %c", speed, turn, key);
@@ -172,23 +190,77 @@ void emergency_brakes(int i)
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "listener");
-  ros::NodeHandle n;
-
-  pub = n.advertise<geometry_msgs::Twist>("cmd_vel", 1);
-  printf("%s", msg);
-  printf("\rCurrent: speed %f\tturn %f | Awaiting command...\r", speed, turn);
 
   (void)signal(SIGALRM, emergency_brakes);
 
+  ros::init(argc, argv, "keyboard_listener");
+  ros::NodeHandle n;
+
+  pub = n.advertise<geometry_msgs::Twist>("cmd_vel", 1);
+  //printf("%s", msg);
+  //printf("\rCurrent: speed %f\tturn %f | Awaiting command...\r", speed, turn);
+
+  int server_fd, new_socket, valread;
+  struct sockaddr_in address;
+  int opt = 1;
+  int addrlen = sizeof(address);
+  char buffer[1024] = {0};
+  //char *hello = "Hello from server";
+
+  // Creating socket file descriptor
+  if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
+  {
+    perror("socket failed");
+    exit(EXIT_FAILURE);
+  }
+
+  // Forcefully attaching socket to the port 8080
+  if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
+                 &opt, sizeof(opt)))
+  {
+    perror("setsockopt");
+    exit(EXIT_FAILURE);
+  }
+  address.sin_family = AF_INET;
+  address.sin_addr.s_addr = INADDR_ANY;
+  address.sin_port = htons(PORT);
+
+  // Forcefully attaching socket to the port 8080
+  if (bind(server_fd, (struct sockaddr *)&address,
+           sizeof(address)) < 0)
+  {
+    perror("bind failed");
+    exit(EXIT_FAILURE);
+  }
+  if (listen(server_fd, 3) < 0)
+  {
+    perror("listen");
+    exit(EXIT_FAILURE);
+  }
+
+  while ((new_socket = accept(server_fd, (struct sockaddr *)&address,
+                              (socklen_t *)&addrlen)) < 0)
+  {
+  }
   while (true)
+  {
+    valread = read(new_socket, buffer, 1024);
+    printf("*%s*\n", buffer);
+    key = buffer[0];
+    //alarm(3);
+    publish_vel();
+
+    //send(new_socket, hello, strlen(hello), 0);
+  }
+
+  /*while (true)
   {
     // Get the pressed key
     printf("key: %c *\n", key);
     key = getch();
     alarm(3);
     publish_vel();
-  }
+  }*/
 
   return 0;
 }
