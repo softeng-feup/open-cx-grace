@@ -63,35 +63,35 @@ class Controller {
       game.grace.lastMoveRadAngle = _radAngle;
       print(_radAngle);
 
-      if (_radAngle < (-3 / 8) * pi && _radAngle > (-5 / 8) * pi) {
+      if (_radAngle < (-15 / 32) * pi && _radAngle > (-17 / 32) * pi) {
         result = "i";
         vAng = 0.0;
-      } else if (_radAngle <= (-1 / 8) * pi && _radAngle >= (-3 / 8) * pi) {
+      } else if (_radAngle <= (-1 / 32) * pi && _radAngle >= (-15 / 32) * pi) {
         result = "o";
-        vAng = (_radAngle + (3 / 8) * pi) * maxVAngle * 4 / pi;
-      } else if (_radAngle < (1 / 8) * pi && _radAngle > (-1 / 8) * pi) {
+        vAng = (_radAngle + (15 / 32) * pi) * maxVAngle * 4 / pi;
+      } else if (_radAngle < (1 / 32) * pi && _radAngle > (-1 / 32) * pi) {
         result = "l";
         vAng = 0.5;
-      } else if (_radAngle <= (3 / 8) * pi && _radAngle >= (1 / 8) * pi) {
+      } else if (_radAngle <= (15 / 32) * pi && _radAngle >= (1 / 32) * pi) {
         result = ".";
-        vAng = (_radAngle - (3 / 8) * pi) * maxVAngle * (-4) / pi;
-      } else if (_radAngle < (5 / 8) * pi && _radAngle > (3 / 8) * pi) {
+        vAng = (_radAngle - (15 / 32) * pi) * maxVAngle * (-4) / pi;
+      } else if (_radAngle < (17 / 32) * pi && _radAngle > (15 / 32) * pi) {
         result = ",";
         vAng = 0.0;
-      } else if (_radAngle <= (7 / 8) * pi && _radAngle >= (5 / 8) * pi) {
+      } else if (_radAngle <= (31 / 32) * pi && _radAngle >= (17 / 32) * pi) {
         result = "m";
-        vAng = (_radAngle - 5 / 8 * pi) * maxVAngle * 4 / pi;
-      } else if ((_radAngle < pi && _radAngle > (7 / 8) * pi) ||
-          (_radAngle < (-7 / 8) * pi && _radAngle > (-1) * pi)) {
+        vAng = (_radAngle - 17 / 32 * pi) * maxVAngle * 4 / pi;
+      } else if ((_radAngle < pi && _radAngle > (31 / 32) * pi) ||
+          (_radAngle < (-31 / 32) * pi && _radAngle > (-1) * pi)) {
         result = "j";
         vAng = 0.5;
-      } else if (_radAngle <= (-5 / 8) * pi && _radAngle >= (-7 / 8) * pi) {
+      } else if (_radAngle <= (-17 / 32) * pi && _radAngle >= (-31 / 32) * pi) {
         result = "u";
-        vAng = (_radAngle + 5 / 8 * pi) * maxVAngle * (-4) / pi;
+        vAng = (_radAngle + 17 / 32 * pi) * maxVAngle * (-4) / pi;
       }
 
-      //result += vAng.toStringAsFixed(3);
-      //  -2/8*pi ---- maxVAngle
+      //result += vAng.toStringAsFixed(15);
+      //  -2/16*pi ---- maxVAngle
       //  radAngulo - 3/8 ------ vAng
       // vang = (radANgulo - 3/8*pi) * 0.5 * -4/pi
       //            -2/8          -1/8
