@@ -26,7 +26,7 @@ class BoardGame extends Game {
     resize(await Flame.util.initialDimensions());
     controller = Controller(this);
     grace = Grace(this);
-    socket = await Socket.connect('192.168.1.9', 8080);
+    socket = await Socket.connect('192.168.1.50', 8080);
   }
 
   void resize(Size size) {

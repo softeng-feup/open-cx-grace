@@ -9,16 +9,18 @@ import 'board-game.dart';
 class Controller {
   final BoardGame game;
 
-  double backgroundAspectRatio = 3;
+  double backgroundAspectRatio = 4;
   Rect backgroundRect;
   Sprite backgroundSprite;
 
-  double knobAspectRatio = 1.8;
+  double knobAspectRatio = 2;
   Rect knobRect;
   Sprite knobSprite;
 
   bool dragging = false;
   Offset dragPosition;
+
+  double maxVAngle = 0.5;
 
   Controller(this.game) {
     backgroundSprite = Sprite('joystick_background.png');
@@ -51,10 +53,11 @@ class Controller {
   }
 
   String update(double t) {
-    String result = "k";
+    String result = "k0.000";
     if (dragging) {
       double _radAngle = atan2(dragPosition.dy - backgroundRect.center.dy,
           dragPosition.dx - backgroundRect.center.dx);
+      double vAng = 0.0;
 
       // Update playerShip's player rad angle
       game.grace.lastMoveRadAngle = _radAngle;
@@ -62,24 +65,37 @@ class Controller {
 
       if (_radAngle < (-3 / 8) * pi && _radAngle > (-5 / 8) * pi) {
         result = "i";
+        vAng = 0.0;
       } else if (_radAngle <= (-1 / 8) * pi && _radAngle >= (-3 / 8) * pi) {
         result = "o";
+        vAng = (_radAngle + (3 / 8) * pi) * maxVAngle * 4 / pi;
       } else if (_radAngle < (1 / 8) * pi && _radAngle > (-1 / 8) * pi) {
         result = "l";
+        vAng = 0.5;
       } else if (_radAngle <= (3 / 8) * pi && _radAngle >= (1 / 8) * pi) {
         result = ".";
+        vAng = (_radAngle - (3 / 8) * pi) * maxVAngle * (-4) / pi;
       } else if (_radAngle < (5 / 8) * pi && _radAngle > (3 / 8) * pi) {
         result = ",";
+        vAng = 0.0;
       } else if (_radAngle <= (7 / 8) * pi && _radAngle >= (5 / 8) * pi) {
         result = "m";
+        vAng = (_radAngle - 5 / 8 * pi) * maxVAngle * 4 / pi;
       } else if ((_radAngle < pi && _radAngle > (7 / 8) * pi) ||
           (_radAngle < (-7 / 8) * pi && _radAngle > (-1) * pi)) {
         result = "j";
+        vAng = 0.5;
       } else if (_radAngle <= (-5 / 8) * pi && _radAngle >= (-7 / 8) * pi) {
         result = "u";
+        vAng = (_radAngle + 5 / 8 * pi) * maxVAngle * (-4) / pi;
       }
 
-      print(result);
+      //result += vAng.toStringAsFixed(3);
+      //  -2/8*pi ---- maxVAngle
+      //  radAngulo - 3/8 ------ vAng
+      // vang = (radANgulo - 3/8*pi) * 0.5 * -4/pi
+      //            -2/8          -1/8
+
 
       // Distance between the center of joystick background & drag position
       Point p = Point(backgroundRect.center.dx, backgroundRect.center.dy);
@@ -92,6 +108,11 @@ class Controller {
           ? dist
           : (game.tileSize * backgroundAspectRatio / 2);
 
+      if(dist == 0){
+        result = 'k';
+      }
+      result += vAng.toStringAsFixed(3);
+      print(result);
       // Calculation the knob position
       double nextX = dist * cos(_radAngle);
       double nextY = dist * sin(_radAngle);
