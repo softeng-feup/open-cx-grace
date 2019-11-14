@@ -1,9 +1,10 @@
 #include "ros/ros.h"
 #include <geometry_msgs/Twist.h>
 
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <unistd.h>
 #include <termios.h>
 #include <signal.h>
@@ -144,7 +145,7 @@ void publish_vel()
   {
     // Grab the speed data
     speed = speed * speedBindings[key][0];
-    turn = turn * speedBindings[key][1];
+    //turn = turn * speedBindings[key][1];
 
     printf("\rCurrent: speed %f\tturn %f | Last command: %c   ", speed, turn, key);
   }
@@ -186,12 +187,13 @@ void emergency_brakes(int i)
   key = 'k';
   printf("Key is %c %d\n", key, i);
   publish_vel();
+  exit(1);
 }
 
 int main(int argc, char **argv)
 {
 
-  (void)signal(SIGALRM, emergency_brakes);
+  (void)signal(SIGINT, emergency_brakes);
 
   ros::init(argc, argv, "keyboard_listener");
   ros::NodeHandle n;
@@ -204,7 +206,8 @@ int main(int argc, char **argv)
   struct sockaddr_in address;
   int opt = 1;
   int addrlen = sizeof(address);
-  char buffer[1024] = {0};
+  char buffer[255];
+  //std::string vang;
   //char *hello = "Hello from server";
 
   // Creating socket file descriptor
@@ -244,13 +247,28 @@ int main(int argc, char **argv)
   }
   while (true)
   {
-    valread = read(new_socket, buffer, 1024);
-    printf("*%s*\n", buffer);
-    key = buffer[0];
-    //alarm(3);
-    publish_vel();
-
-    //send(new_socket, hello, strlen(hello), 0);
+    valread = read(new_socket, buffer, 7);
+    if (valread == 6)
+    {
+      key = buffer[0];//vang.at(0);
+      if (key != 'k')
+      {
+        turn = (buffer[3] - '0') * 0.1; //(vang.at(3) - '0') * 0.1;
+        turn += (buffer[4] - '0') * 0.01; //(vang.at(4) - '0') * 0.01;
+        turn += (buffer[5] - '0')* 0.001; //(vang.at(5) - '0') * 0.001;
+      }
+      else
+      {
+        turn = 0;
+      }
+      printf("\n*%s*\n", buffer);
+      publish_vel();
+    }
+    else{
+      key ='k';
+      publish_vel();
+    }
+    
   }
 
   /*while (true)
