@@ -43,7 +43,7 @@ class Controller {
     radius = (game.tileSize * knobAspectRatio) / 2;
 
     Offset osKnob = Offset(backgroundRect.center.dx, backgroundRect.center.dy);
-    knobRect = Rect.fromCircle(center: osKnob, radius: radius);
+    knobRect = Rect.fromCircle(center: osKnob, radius: 1.25*radius);
     dragPosition = knobRect.center;
   }
 
@@ -96,7 +96,6 @@ class Controller {
       // vang = (radANgulo - 3/8*pi) * 0.5 * -4/pi
       //            -2/8          -1/8
 
-
       // Distance between the center of joystick background & drag position
       Point p = Point(backgroundRect.center.dx, backgroundRect.center.dy);
       double dist = p.distanceTo(Point(dragPosition.dx, dragPosition.dy));
@@ -108,7 +107,7 @@ class Controller {
           ? dist
           : (game.tileSize * backgroundAspectRatio / 2);
 
-      if(dist == 0){
+      if (dist == 0) {
         result = 'k';
       }
       result += vAng.toStringAsFixed(3);
@@ -141,7 +140,7 @@ class Controller {
   }
 
   void onPanUpdate(DragUpdateDetails details) {
-    if (dragging) {
+    if (dragging && knobRect.contains(details.globalPosition)) {
       dragPosition = details.globalPosition;
     }
   }

@@ -3,8 +3,10 @@ import 'dart:ui';
 
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 
 import 'controller.dart';
 import 'grace.dart';
@@ -18,15 +20,16 @@ class BoardGame extends Game {
   Grace grace;
   String command;
 
-  BoardGame() {
-    initialize();
+  BoardGame(String IPaddr) {
+    print(IPaddr);
+    initialize(IPaddr);
   }
 
-  void initialize() async {
+  void initialize(String IPaddr) async {
     resize(await Flame.util.initialDimensions());
     controller = Controller(this);
     grace = Grace(this);
-    socket = await Socket.connect('192.168.43.5', 8080);
+    socket = await Socket.connect(IPaddr, 8080);
   }
 
   void resize(Size size) {

@@ -5,6 +5,8 @@ import 'package:flame/flame.dart';
 
 import 'board-game.dart';
 
+final myController = TextEditingController();
+
 void main() async {
   // Force landscape device left orientation
   await SystemChrome.setPreferredOrientations(
@@ -46,6 +48,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +74,11 @@ class HomePage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pushNamed("/grace_controller");
                   }),
+              TextField(
+                controller: myController,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), hintText: 'Enter a search term'),
+              )
             ],
           ),
         ),
@@ -122,7 +130,7 @@ class GraceCall extends StatelessWidget {
 }
 
 class MyJoystick extends StatelessWidget {
-  final BoardGame game = BoardGame();
+  final BoardGame game = BoardGame(myController.text);
 
   @override
   Widget build(BuildContext context) {
