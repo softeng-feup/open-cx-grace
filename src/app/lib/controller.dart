@@ -35,7 +35,7 @@ class Controller {
     var radius = (game.tileSize * backgroundAspectRatio) / 2;
 
     Offset osBackground = Offset(radius + (radius / 2) * 1.5,
-        game.screenSize.height - (radius + (radius / 2)) * 2);
+        game.screenSize.height - 5*radius/4);
     backgroundRect = Rect.fromCircle(center: osBackground, radius: radius);
 
     // The circle radius calculation that will contain the knob

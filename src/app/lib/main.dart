@@ -50,38 +50,59 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final double x = 5 * MediaQuery.of(context).size.width / 16;
+    final double y = MediaQuery.of(context).size.height / 3;
+    double sliderValue = 5;
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: Color.fromRGBO(3, 44, 115, 1),
-          child: Stack(
-            children: <Widget>[
-              Center(
-                  child: Text("Grace",
-                      style: TextStyle(fontSize: 32, color: Colors.white))),
-              MyButton(
-                  x: 14,
-                  y: 60,
-                  title: "Call",
-                  onPressed: () {
-                    Navigator.of(context).pushNamed("/grace_call");
-                  }),
-              MyButton(
-                  x: 70,
-                  y: 60,
-                  title: "Control",
-                  onPressed: () {
-                    Navigator.of(context).pushNamed("/grace_controller");
-                  }),
-              TextField(
-                controller: myController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter a search term'),
-              )
-            ],
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/robot.jpg"),
+            fit: BoxFit.cover,
           ),
         ),
+        child: Column(children: <Widget>[
+          Center(
+              child: Text("Grace",
+                  style: TextStyle(fontSize: 32, color: Colors.black))),
+          Transform.translate(
+            offset: Offset(x, y),
+            child: Row(
+              children: <Widget>[
+                FloatingActionButton(
+                    onPressed: () {
+                      print(context);
+                      Navigator.of(context).pushNamed("/grace_controller");
+                    },
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      'Control',
+                      style: TextStyle(color: Colors.black),
+                    )),
+                Container(
+                  width: 200,
+                  color: Color.fromRGBO(255, 255, 255, 1),
+                  child: TextField(
+                    controller: myController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Enter a search term'),
+                  ),
+                ),
+                FloatingActionButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/grace_call");
+                    },
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      'Call',
+                      style: TextStyle(color: Colors.black),
+                    )),
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }
@@ -131,20 +152,32 @@ class GraceCall extends StatelessWidget {
 
 class MyJoystick extends StatelessWidget {
   final BoardGame game = BoardGame(myController.text);
-
+  double sliderValue = 5;
   @override
   Widget build(BuildContext context) {
+    print('olas');
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Container(
-        decoration: BoxDecoration(color: Colors.white),
-        child: GestureDetector(
+      home: Column(
+        children:<Widget>[ 
+          Container(
+            decoration: BoxDecoration(color: Colors.white),
+            child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onPanStart: game.onPanStart,
           onPanUpdate: game.onPanUpdate,
           onPanEnd: game.onPanEnd,
           child: game.widget,
+        )
         ),
+        Slider.adaptive(
+                min: 0,
+                max: 10,
+                value: sliderValue,
+                onChanged: (newRating) {
+                    () => sliderValue = newRating;
+                  },
+              )],
       ),
     );
   }

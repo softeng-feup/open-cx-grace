@@ -49,6 +49,7 @@ flutter:
     - assets/images/joystick_background.png
     - assets/images/joystick_knob.png
     - assets/images/grace.png
+    - assets/images/robot.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
