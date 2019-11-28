@@ -43,7 +43,7 @@ class Controller {
     radius = (game.tileSize * knobAspectRatio) / 2;
 
     Offset osKnob = Offset(backgroundRect.center.dx, backgroundRect.center.dy);
-    knobRect = Rect.fromCircle(center: osKnob, radius: 1.25*radius);
+    knobRect = Rect.fromCircle(center: osKnob, radius: 1.25 * radius);
     dragPosition = knobRect.center;
   }
 

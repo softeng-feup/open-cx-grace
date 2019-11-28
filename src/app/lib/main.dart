@@ -48,7 +48,6 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +76,8 @@ class HomePage extends StatelessWidget {
               TextField(
                 controller: myController,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(), hintText: 'Enter a search term'),
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter a search term'),
               )
             ],
           ),

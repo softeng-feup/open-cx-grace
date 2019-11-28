@@ -24,11 +24,6 @@
 
 int alarm_flag = 0;
 
-/*
-Luís Sousa - lm.sousa@fe.up.pt / lm.sousa@ieee.org
-IEEE UP SB - nuieee@fe.up.pt
-*/
-
 // Map for movement keys
 std::map<char, std::vector<float>> moveBindings{
     {'i', {1, 0, 0, 0}},
@@ -250,12 +245,12 @@ int main(int argc, char **argv)
     valread = read(new_socket, buffer, 7);
     if (valread == 6)
     {
-      key = buffer[0];//vang.at(0);
+      key = buffer[0]; //vang.at(0);
       if (key != 'k')
       {
-        turn = (buffer[3] - '0') * 0.1; //(vang.at(3) - '0') * 0.1;
-        turn += (buffer[4] - '0') * 0.01; //(vang.at(4) - '0') * 0.01;
-        turn += (buffer[5] - '0')* 0.001; //(vang.at(5) - '0') * 0.001;
+        turn = (buffer[3] - '0') * 0.1;    //(vang.at(3) - '0') * 0.1;
+        turn += (buffer[4] - '0') * 0.01;  //(vang.at(4) - '0') * 0.01;
+        turn += (buffer[5] - '0') * 0.001; //(vang.at(5) - '0') * 0.001;
       }
       else
       {
@@ -264,11 +259,11 @@ int main(int argc, char **argv)
       printf("\n*%s*\n", buffer);
       publish_vel();
     }
-    else{
-      key ='k';
+    else
+    {
+      key = 'k';
       publish_vel();
     }
-    
   }
 
   /*while (true)
