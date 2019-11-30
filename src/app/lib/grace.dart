@@ -1,52 +1,112 @@
-import 'dart:math';
+import 'dart:io';
 import 'dart:ui';
+import 'dart:math';
 
-import 'package:flame/sprite.dart';
+import 'package:flame/flame.dart';
+import 'package:flame/game.dart';
+import 'package:flutter/cupertino.dart';
 
-import 'board-game.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 
-class Grace {
-  final BoardGame game;
+class BoardGame extends Game {
+  Size screenSize;
+  double tileSize;
 
-  double aspectRatio = 1.4;
-  double size;
-  double speed = 100.0;
-  Rect rect;
-  Sprite sprite;
+  Socket socket;
+  String command = "k0.000";
+  String speed = "s0.000";
+  String result = "k0.000s0.000";
+  double maxVAngle = 0.5;
+  double maxLSpeed = 2.5;
 
-  bool move = false;
-  double lastMoveRadAngle = 0.0;
-
-  Grace(this.game) {
-    size = game.tileSize * aspectRatio;
-
-    rect = Rect.fromLTWH(game.screenSize.width / 2 - (size / 2),
-        game.screenSize.height / 2 - (size / 2), size, size);
-
-    sprite = Sprite('grace.png');
+  BoardGame(String IPaddr) {
+    ////print(IPaddr);
+    initialize(IPaddr);
   }
 
+  void initialize(String IPaddr) async {
+    resize(await Flame.util.initialDimensions());
+    socket = await Socket.connect(IPaddr, 8080);
+  }
+
+  void resize(Size size) {
+    screenSize = size;
+    tileSize = screenSize.height / 9; // 9:16 ratio
+  }
+
+  @override
   void render(Canvas canvas) {
-    canvas.save();
-    canvas.translate(rect.center.dx, rect.center.dy);
-
-    canvas.rotate(lastMoveRadAngle == 0.0 ? 0.0 : lastMoveRadAngle + (pi / 2));
-    canvas.translate(-rect.center.dx, -rect.center.dy);
-    sprite.renderRect(canvas, rect);
-    canvas.restore();
+    if (screenSize == null) {
+      return;
+    }
+    canvas.drawRect(
+      Rect.fromLTWH(
+        0,
+        0,
+        screenSize.width,
+        screenSize.height,
+      ),
+      Paint()..color = Color(0xff27ae60),
+    );
   }
 
+  @override
   void update(double t) {
-    if (move) {
-      double nextX = (speed * t) * cos(lastMoveRadAngle);
-      double nextY = (speed * t) * sin(lastMoveRadAngle);
-
-      Offset nextPoint = Offset(nextX, nextY);
-
-      Offset diffBase =
-          Offset(rect.center.dx + nextPoint.dx, rect.center.dy + nextPoint.dy) -
-              rect.center;
-      rect = rect.shift(diffBase);
+    if (screenSize == null) {
+      return;
     }
+    result = command + speed;
+    print(result);
+    if (socket != null) {
+      socket.write(result);
+      result = "k0.000s0.000";
+    }
+  }
+
+  void angularVelChange(Offset offset) {
+    double vAng = 0.0;
+    double radAngle = atan2(offset.dy, offset.dx);
+    command = "k";
+
+    if (offset.dy == 0 && offset.dx == 0) {
+      command = "k";
+      vAng = 0.0;
+    } else if (radAngle < (-15 / 32) * pi && radAngle > (-17 / 32) * pi) {
+      command = "i";
+      vAng = 0.0;
+    } else if (radAngle <= (-1 / 32) * pi && radAngle >= (-15 / 32) * pi) {
+      command = "o";
+      vAng = (radAngle + (15 / 32) * pi) * maxVAngle * 4 / pi;
+    } else if (radAngle < (1 / 32) * pi && radAngle > (-1 / 32) * pi) {
+      command = "l";
+      vAng = 0.5;
+    } else if (radAngle <= (15 / 32) * pi && radAngle >= (1 / 32) * pi) {
+      command = ".";
+      vAng = (radAngle - (15 / 32) * pi) * maxVAngle * (-4) / pi;
+    } else if (radAngle < (17 / 32) * pi && radAngle > (15 / 32) * pi) {
+      command = ",";
+      vAng = 0.0;
+    } else if (radAngle <= (31 / 32) * pi && radAngle >= (17 / 32) * pi) {
+      command = "m";
+      vAng = (radAngle - 17 / 32 * pi) * maxVAngle * 4 / pi;
+    } else if ((radAngle < pi && radAngle > (31 / 32) * pi) ||
+        (radAngle < (-31 / 32) * pi && radAngle > (-1) * pi)) {
+      command = "j";
+      vAng = 0.5;
+    } else if (radAngle <= (-17 / 32) * pi && radAngle >= (-31 / 32) * pi) {
+      command = "u";
+      vAng = (radAngle + 17 / 32 * pi) * maxVAngle * (-4) / pi;
+    }
+
+    command += vAng.toStringAsFixed(3);
+  }
+
+  void linearVelChange(Offset offset) {
+    speed = "s";
+    double speedMod;
+    speedMod = maxLSpeed * (100 - offset.dy) / 200;
+    speed += speedMod.abs().toStringAsFixed(3);
+    print(speed);
   }
 }

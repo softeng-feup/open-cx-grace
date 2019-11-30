@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grace/slider.dart';
 
-import 'package:flame/flame.dart';
-
-import 'board-game.dart';
+import 'grace.dart';
+import 'joystick.dart';
 
 final myController = TextEditingController();
 
@@ -19,12 +19,6 @@ void main() async {
     statusBarColor: Color.fromRGBO(3, 44, 115, 1), // status bar color
   ));
 */
-  Flame.images.loadAll(<String>[
-    'joystick_background.png',
-    'joystick_knob.png',
-    'grace.png',
-  ]);
-
   runApp(MyApp());
 }
 
@@ -75,6 +69,7 @@ class HomePage extends StatelessWidget {
                   }),
               TextField(
                 controller: myController,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Enter a search term'),
@@ -131,68 +126,54 @@ class GraceCall extends StatelessWidget {
 
 class MyJoystick extends StatelessWidget {
   final BoardGame game = BoardGame(myController.text);
-
+  /*GestureDetector(
+    behavior: HitTestBehavior.opaque,
+    onPanStart: game.onPanStart,
+    onPanUpdate: game.onPanUpdate,
+    onPanEnd: game.onPanEnd,
+    child: game.widget,
+  ), */
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    double controlsY = MediaQuery.of(context).size.height;
+    print(controlsY);
+    double controlsX = MediaQuery.of(context).size.width;
+    print(controlsX);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Container(
-        decoration: BoxDecoration(color: Colors.white),
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onPanStart: game.onPanStart,
-          onPanUpdate: game.onPanUpdate,
-          onPanEnd: game.onPanEnd,
-          child: game.widget,
-        ),
+      home: Stack(
+        children: [
+          //Robots Vision Layer
+          game.widget,
+          //Robots Controls Layer
+          Column(
+            children: [
+              SizedBox(height: 150),
+              Row(
+                children: [
+                  SizedBox(width: 75),
+                  Transform.translate(
+                    offset: Offset(10, 57),
+                    child: Joystick(
+                      onChange: (Offset delta) => game.angularVelChange(delta),
+                    ),
+                  ),
+                  Spacer(),
+                  Transform.translate(
+                    offset: Offset(20, 0),
+                    child: MySlider(
+                      onChange: (Offset delta) => game.linearVelChange(delta),
+                    ),
+                  ),
+                  SizedBox(width: 100),
+                ],
+              ),
+              SizedBox(height: 24),
+            ],
+          ),
+        ],
       ),
     );
-  }
-}
-
-class MySwitch extends StatefulWidget {
-  createState() => MySwitchState();
-}
-
-class MySwitchState extends State<MySwitch> {
-  bool isSwitched = true;
-  bool isChecked = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Switch Check',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Scaffold(
-          appBar: AppBar(
-            title: Text("Switch Check"),
-          ),
-          body: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Switch(
-                    value: isSwitched,
-                    onChanged: (value) {
-                      setState(() {
-                        isSwitched = value;
-                      });
-                    },
-                    activeTrackColor: Colors.lightGreenAccent,
-                    activeColor: Colors.green,
-                  ),
-                  Checkbox(
-                    value: isChecked,
-                    onChanged: (value) {
-                      setState(() {
-                        isChecked = value;
-                      });
-                    },
-                  )
-                ]),
-          ),
-        ));
   }
 }
