@@ -128,6 +128,8 @@ void get_connection(int server_fd)
     printf("\n*Trying to connect*\n");
   }
 
+  printf("\n*I'm connected*\n");
+
   connected = true;
   alarm(3);
 }
@@ -139,32 +141,41 @@ void read_socket()
 
   while (connected)
   {
-    valread = read(the_socket, buffer, 12);
+    fflush(stdout);
+    memset(buffer, 0, 255);
+    valread = read(the_socket, buffer, 255);
     printf("\nV is %d\n", valread);
     printf("\n*%s*\n", buffer);
 
-    if (valread == 12)
+    if (valread != 0)
     {
-      alarm(3);
-      key = buffer[0]; //vang.at(0);
-      if (key != 'k')
+      for (int i = 0; i < valread; i++)
       {
-        turn = (buffer[1] - '0');
-        turn += (buffer[3] - '0') * 0.1;
-        turn += (buffer[4] - '0') * 0.01;
-        turn += (buffer[5] - '0') * 0.001;
+        if (check_flag(buffer.at(i)))
+        {
+          alarm(3);
+          key = buffer[i]; //vang.at(0);
 
-        speed = (buffer[7] - '0');
-        speed += (buffer[9] - '0') * 0.1;
-        speed += (buffer[10] - '0') * 0.01;
-        speed += (buffer[11] - '0') * 0.001;
+          if (key != 'k')
+          {
+            turn = (buffer[i + 1] - '0');
+            turn += (buffer[i + 3] - '0') * 0.1;
+            turn += (buffer[i + 4] - '0') * 0.01;
+            turn += (buffer[i + 5] - '0') * 0.001;
+
+            speed = (buffer[i + 7] - '0');
+            speed += (buffer[i + 9] - '0') * 0.1;
+            speed += (buffer[i + 10] - '0') * 0.01;
+            speed += (buffer[i + 11] - '0') * 0.001;
+          }
+          else //k0.000s0.000
+          {
+            turn = 0;
+          }
+          printf("\n*%s*\n", buffer);
+          publish_vel();
+        }
       }
-      else //k0.000s0.000
-      {
-        turn = 0;
-      }
-      printf("\n*%s*\n", buffer);
-      publish_vel();
     }
     else
     {
@@ -176,11 +187,38 @@ void read_socket()
 
 void try_to_reconnect(int c)
 {
-  printf("\nim desconnected\n");
+  printf("\nI'm disconnected\n");
   connected = false;
   key = 'k';
   publish_vel();
-  printf("\nim still disconnected\n");
+  printf("\nI'm still disconnected\n");
+}
+
+bool check_flag(char c)
+{
+  switch (c)
+  {
+  case 'u':
+    return true;
+  case 'i':
+    return true;
+  case 'o':
+    return true;
+  case 'j':
+    return true;
+  case 'k':
+    return true;
+  case 'l':
+    return true;
+  case 'm':
+    return true;
+  case ',':
+    return true;
+  case '.':
+    return true;
+  default:
+    return false;
+  }
 }
 
 int main(int argc, char **argv)

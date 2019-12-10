@@ -145,6 +145,8 @@ To better understand the context of the software system, it is very useful to ha
 
 There two main user roles: the **conference participant** and the **administrator**. The former summons Grace and the latter controls it.
 
+#### Implemented
+
 > 1. As an administrator, I should be able to make the robot move.
 
 &nbsp; &nbsp; &nbsp; &nbsp; Given that I'm controlling the robot <br>
@@ -194,6 +196,8 @@ There two main user roles: the **conference participant** and the **administrato
 
 ![Joystick Mockup][joystick mockup]
 
+#### To Be Implemented
+
 > 6. As a user, I should be able to perform a security handshake with the robot.
 
 &nbsp; &nbsp; &nbsp; &nbsp; Given that the robot is near me <br>
@@ -228,7 +232,7 @@ The architecture of a software system encompasses the set of key decisions about
 
 * **Robot:** Uses **mechanical parts** controlled by an **Arduino** that is connected to a **Raspberry Pi** through **USB**.
 
-* **Raspberry Pi:** Runs **Robot Operative System (ROS)** on **Ubuntu** that interprets commands received through **Sockets** and sends it to the robot. 
+* **Raspberry Pi:** Runs **Robot Operative System (ROS)** on **Raspbian** (**ROSberryPi**) that interprets commands received through **Sockets** and sends it to the robot. 
 
 * **Mobile App:** This the frontend component of the system, used by the user/admin to communicate with Grace through **Web Sockets**.
 
@@ -253,7 +257,7 @@ On the **Robot Operative System (ROS) Melodic** side of the project, two nodes a
 
 [comment]: <> (It should describe also the technologies considered and justify the selections made. Examples of technologies relevant for openCX are, for example, frameworks for mobile applications 'Flutter vs ReactNative vs ...', languages to program with microbit, and communication with things 'beacons, sensors, etc.'.)
 
-For Grace to move, there are several **mechanical parts** powered by two motors and batteries. These parts are controlled by an **Arduino** that is connected to a **Raspberry Pi 4** through **USB**. The RPI is running **Robot Operative System (ROS) Melodic** on **Ubuntu 18.04.03 LTS** and contains a ROS package to interpret commands received through **Web Sockets** and another to control the motion of the robot. Such instructions are input from a **mobile app** used by the user/admin, which was built with **Flutter**, an open-source UI software development kit that builds natively compiled applications from a single codebase.
+For Grace to move, there are several **mechanical parts** powered by two motors and batteries. These parts are controlled by an **Arduino** that is connected to a **Raspberry Pi 4** through **USB**. The RPI is running **Robot Operative System (ROS) Melodic** on **Raspbian Buster** (**ROSberryPi**) and contains a ROS package to interpret commands received through **Web Sockets** and another to control the motion of the robot. Such instructions are input from a **mobile app** used by the user/admin, which was built with **Flutter**, an open-source UI software development kit that builds natively compiled applications from a single codebase.
 
 ![UML Deplyment Diagram][uml deployment diagram]
 
@@ -276,6 +280,10 @@ For Grace to move, there are several **mechanical parts** powered by two motors 
 
 * [User Story #4](#User-Stories): it becomes possible to choose the type of interaction the user or administrator has with Grace (calling or controlling).
 
+#### Iteration #4
+
+* [User Story #3](#User-Stories): .
+
 ---
 
 ## Implementation
@@ -292,7 +300,7 @@ Our project has two core code 'modules' that complement each other (which can be
 
 ## Test
 
-* **To Do**
+Most of the time we didn't have a physical robot, so we used a [**Gazebo Simulator**][simulator] (a 3D dynamic simulator) developed for Conde, a predecessor of Grace. This way, we managed to test the robot's main controls (joystick and slider) as they were being reproduced accurately in there.
 
 [comment]: <> (There are several ways of documenting testing activities, and quality assurance in general, being the most common: a strategy, a plan, test case specifications, and test checklists.)
 
@@ -341,6 +349,46 @@ The following image shows our project's progress:
 **Third Iteration**
 ![iteration#3][trello_iteration3]
 
+**Fourth Iteration**
+![iteration#4][trello_iteration4]
+
+---
+
+## Installation Guide
+
+### Prerequisites
+* Install Robot Operative System (ROS) Melodic. We used specifically **ROSberryPi**, a ROS Melodic distro for Raspbian Buster, but any Ubuntu version will do (Ubuntu 18.04.3 LTS is recommended).
+
+* Optionally, you can use this [simulator][simulator] to test without a physical robot.
+
+[comment]: <> (POr o package)
+
+--
+
+### Building
+Copy the files located [here][ros nodes module] into the src folder inside the catkin workspace and compile it.
+
+```
+$ cd catkin_workspace
+$ catkin make
+```
+
+### Running
+First, you must have a roscore running in order for ROS nodes to communicate. It is launched using the roscore command. 
+
+```
+$ roscore
+```
+
+Rosrun allows you to run Grace's executable in an arbitrary package from anywhere without having to give its full path or cd/roscd there first.
+
+```
+$ rosrun grace keyboard_listener
+```
+
+[comment]: <> (NOTE:::: mini ref ao ip se quiserem)
+
+
 [comment]: <> ( -------------------------------------------------------- )
 [comment]: <> ( ------------------------ IMAGES ------------------------ )
 [comment]: <> ( -------------------------------------------------------- )
@@ -348,11 +396,18 @@ The following image shows our project's progress:
 [use case diagram]: ./res/use_case_diagram.png "Use Case Diagram"
 [trello_iteration1]: ./res/trello_iteration1.png "Trello First Iteration"
 [trello_iteration2]: ./res/trello_iteration2.png "Trello Second Iteration"
-[trello_iteration3]: ./res/trello_iteration2.png "Trello Third Iteration"
+[trello_iteration3]: ./res/trello_iteration3.png "Trello Third Iteration"
+[trello_iteration4]: ./res/trello_iteration4.png "Trello Fourth Iteration"
 [uml deployment diagram]: ./res/uml_deployment_diagram.jpeg "UML Deployment Diagram"
 [pub_sub diagram]: ./res/pub_sub.jpg "Publisher-subscriber Diagram"
 [joystick mockup]: ./res/joystick_mockup.jpeg "Joystick Mockup"
 [app mockup]: ./res/app_mockup.png "App Mockup"
+
+[comment]: <> ( ------------------------------------------------------- )
+[comment]: <> ( ------------------------ LINKS ------------------------ )
+[comment]: <> ( ------------------------------------------------------- )
+
+[simulator]: https://github.com/ee09115/conde_simulator "Conde Simulator"
 [src folder]: https://github.com/softeng-feup/grace/tree/master/src "Source Folder"
 [app module]: https://github.com/softeng-feup/grace/tree/master/src/app "App Module"
-[ros nodes module]: https://github.com/softeng-feup/grace/tree/master/src/ros_nodes "Ros Nodes Module"
+[ros nodes module]: https://github.com/softeng-feup/grace/tree/master/src/ros_nodes "ROS Nodes Module"
