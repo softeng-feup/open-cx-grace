@@ -47,7 +47,7 @@ class BoardGame extends Game {
         screenSize.width,
         screenSize.height,
       ),
-      Paint()..color = Color(0xff27ae60),
+      Paint()..color = Colors.lightBlue[900],
     );
   }
 

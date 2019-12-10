@@ -22,6 +22,8 @@
 #define PORT 8080
 #define SA struct sockaddr
 
+bool check_flag(char c);
+
 // Map for movement keys
 std::map<char, std::vector<float>> moveBindings{
     {'i', {1, 0, 0, 0}},
@@ -121,6 +123,8 @@ void publish_vel()
 void get_connection(int server_fd)
 {
   int addrlen = sizeof(address);
+  printf("dentro do get connection\n");
+  fflush(stdout);
 
   while ((the_socket = accept(server_fd, (struct sockaddr *)&address,
                               (socklen_t *)&addrlen)) < 0)
@@ -129,6 +133,7 @@ void get_connection(int server_fd)
   }
 
   printf("\n*I'm connected*\n");
+  fflush(stdout);
 
   connected = true;
   alarm(3);
@@ -138,6 +143,9 @@ void read_socket()
 {
   int valread;
   char buffer[255];
+
+  printf("dentro do read socket\n");
+  fflush(stdout);
 
   while (connected)
   {
@@ -151,7 +159,7 @@ void read_socket()
     {
       for (int i = 0; i < valread; i++)
       {
-        if (check_flag(buffer.at(i)))
+        if (check_flag(buffer[i]))
         {
           alarm(3);
           key = buffer[i]; //vang.at(0);
@@ -174,6 +182,7 @@ void read_socket()
           }
           printf("\n*%s*\n", buffer);
           publish_vel();
+          i+=11;
         }
       }
     }
@@ -188,10 +197,12 @@ void read_socket()
 void try_to_reconnect(int c)
 {
   printf("\nI'm disconnected\n");
+  fflush(stdout);
   connected = false;
   key = 'k';
   publish_vel();
   printf("\nI'm still disconnected\n");
+  fflush(stdout);
 }
 
 bool check_flag(char c)

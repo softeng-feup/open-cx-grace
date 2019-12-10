@@ -282,7 +282,7 @@ For Grace to move, there are several **mechanical parts** powered by two motors 
 
 #### Iteration #4
 
-* [User Story #3](#User-Stories): .
+* [User Story #3](#User-Stories): Grace is now able to livestream video to the app, thus making the operator capable of seeing the robot's route. 
 
 ---
 
@@ -300,7 +300,7 @@ Our project has two core code 'modules' that complement each other (which can be
 
 ## Test
 
-Most of the time we didn't have a physical robot, so we used a [**Gazebo Simulator**][simulator] (a 3D dynamic simulator) developed for Conde, a predecessor of Grace. This way, we managed to test the robot's main controls (joystick and slider) as they were being reproduced accurately in there.
+Most of the time we didn't have an assembled robot, so we used a [**Gazebo Simulator**][simulator] (a 3D dynamic simulator) developed for Conde, a predecessor of Grace. This way, we managed to test the robot's main controls (joystick and slider) as they were being reproduced accurately in there.
 
 [comment]: <> (There are several ways of documenting testing activities, and quality assurance in general, being the most common: a strategy, a plan, test case specifications, and test checklists.)
 
@@ -359,11 +359,11 @@ The following image shows our project's progress:
 ### Prerequisites
 * Install Robot Operative System (ROS) Melodic. We used specifically **ROSberryPi**, a ROS Melodic distro for Raspbian Buster, but any Ubuntu version will do (Ubuntu 18.04.3 LTS is recommended).
 
-* Optionally, you can use this [simulator][simulator] to test without a physical robot.
+* Find the Raspberry Pi's IP address. You will need this information in order to remotely control Grace through the app.
 
-[comment]: <> (POr o package)
-
---
+```
+$ hostname -I
+```
 
 ### Building
 Copy the files located [here][ros nodes module] into the src folder inside the catkin workspace and compile it.
@@ -380,13 +380,15 @@ First, you must have a roscore running in order for ROS nodes to communicate. It
 $ roscore
 ```
 
-Rosrun allows you to run Grace's executable in an arbitrary package from anywhere without having to give its full path or cd/roscd there first.
+The rosrun process allows you to run Grace's executable in an arbitrary package from anywhere without having to give its full path or cd/roscd there first.
 
 ```
 $ rosrun grace keyboard_listener
 ```
 
-[comment]: <> (NOTE:::: mini ref ao ip se quiserem)
+### Optional Resources
+
+* It is possible to use this [simulator][simulator] to test the robot's behaviour without an assembled robot.
 
 
 [comment]: <> ( -------------------------------------------------------- )

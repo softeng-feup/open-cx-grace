@@ -44,38 +44,52 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final double x = 5 * MediaQuery.of(context).size.width / 16;
+    final double y = MediaQuery.of(context).size.height / 3;
+    double sliderValue = 5;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
-          color: Color.fromRGBO(3, 44, 115, 1),
-          child: Stack(
-            children: <Widget>[
-              Center(
-                  child: Text("Grace",
-                      style: TextStyle(fontSize: 32, color: Colors.white))),
-              MyButton(
-                  x: 14,
-                  y: 60,
-                  title: "Call",
-                  onPressed: () {
-                    Navigator.of(context).pushNamed("/grace_call");
-                  }),
-              MyButton(
-                  x: 70,
-                  y: 60,
-                  title: "Control",
-                  onPressed: () {
-                    Navigator.of(context).pushNamed("/grace_controller");
-                  }),
-              TextField(
-                controller: myController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter a search term'),
-              )
-            ],
-          ),
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/robot.jpg"),
+                  fit: BoxFit.cover)),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 20),
+                Center(
+                    child: Text(
+                  "Grace",
+                  style: TextStyle(fontSize: 32, color: Colors.lightBlue[900], fontWeight: FontWeight.bold),
+                )),
+                SizedBox(height: 75),
+                Container(
+                    width: 200,
+                    decoration: BoxDecoration(color: Colors.white,),
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      controller: myController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                borderSide: BorderSide(color: Colors.lightBlue[900], width: 2),
+               ),
+                          hintText: 'Enter Grace\'s IP address'),
+                    )),
+                RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Text("Control Grace"),
+                    color: Colors.blue[800],
+                    textColor: Colors.white,
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/grace_controller");
+                    })
+              ]),
         ),
       ),
     );
@@ -149,7 +163,7 @@ class MyJoystick extends StatelessWidget {
           //Robots Controls Layer
           Column(
             children: [
-              SizedBox(height: 150),
+              SizedBox(height: 100),
               Row(
                 children: [
                   SizedBox(width: 75),

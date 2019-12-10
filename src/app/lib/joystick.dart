@@ -14,7 +14,7 @@ class Joystick extends StatefulWidget {
 
 class JoystickState extends State<Joystick> {
   Offset delta = Offset.zero;
-  double side = 100;
+  double side = 50;
 
   void updateDelta(Offset newDelta) {
     widget.onChange(newDelta);
