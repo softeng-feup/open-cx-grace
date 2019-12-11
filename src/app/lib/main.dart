@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grace/slider.dart';
+import 'package:flutter_vlc_player/vlc_player.dart';
+import 'package:flutter_vlc_player/vlc_player_controller.dart';
 
 import 'grace.dart';
 import 'joystick.dart';
@@ -63,21 +65,28 @@ class HomePage extends StatelessWidget {
                 Center(
                     child: Text(
                   "Grace",
-                  style: TextStyle(fontSize: 32, color: Colors.lightBlue[900], fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 32,
+                      color: Colors.lightBlue[900],
+                      fontWeight: FontWeight.bold),
                 )),
                 SizedBox(height: 75),
                 Container(
                     width: 200,
-                    decoration: BoxDecoration(color: Colors.white,),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
                     child: TextField(
                       textAlign: TextAlign.center,
                       controller: myController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                borderSide: BorderSide(color: Colors.lightBlue[900], width: 2),
-               ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)),
+                            borderSide: BorderSide(
+                                color: Colors.lightBlue[900], width: 2),
+                          ),
                           hintText: 'Enter Grace\'s IP address'),
                     )),
                 RaisedButton(
@@ -138,8 +147,7 @@ class GraceCall extends StatelessWidget {
   }
 }
 
-class MyJoystick extends StatelessWidget {
-  final BoardGame game = BoardGame(myController.text);
+class MyJoystick extends StatefulWidget {
   /*GestureDetector(
     behavior: HitTestBehavior.opaque,
     onPanStart: game.onPanStart,
@@ -147,6 +155,32 @@ class MyJoystick extends StatelessWidget {
     onPanEnd: game.onPanEnd,
     child: game.widget,
   ), */
+
+  @override
+  _MyJoystickState createState() => _MyJoystickState();
+}
+
+class _MyJoystickState extends State<MyJoystick> {
+  String _stringURL;
+  VlcPlayerController _vlcPlayerController;
+  final BoardGame game = BoardGame(myController.text);
+
+  @override
+  void initState() {
+    super.initState();
+    _vlcPlayerController = new VlcPlayerController();
+  }
+
+  void _incrementCounter() {
+    setState(() {
+      if (_stringURL != null) {
+        _stringURL = null;
+      } else {
+        _stringURL = "http://www.youtube.com/watch?v=EEIk7gwjgIM";
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -154,40 +188,62 @@ class MyJoystick extends StatelessWidget {
     print(controlsY);
     double controlsX = MediaQuery.of(context).size.width;
     print(controlsX);
+
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Stack(
-        children: [
-          //Robots Vision Layer
-          game.widget,
-          //Robots Controls Layer
-          Column(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: _incrementCounter,
+            tooltip: 'Increment',
+            child: Icon(_stringURL == null ? Icons.play_arrow : Icons.pause),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          body: Stack(
             children: [
-              SizedBox(height: 100),
-              Row(
+              //Robots Vision Layer
+
+              Container(
+                child: new VlcPlayer(
+                  defaultWidth: 640,
+                  defaultHeight: 480,
+                  url: _stringURL,
+                  controller: _vlcPlayerController,
+                  placeholder: Container(),
+                ),
+                color: Colors.black,
+                width: controlsX,
+                height: controlsY,
+              ),
+              //Robots Controls Layer
+              Column(
                 children: [
-                  SizedBox(width: 75),
-                  Transform.translate(
-                    offset: Offset(10, 57),
-                    child: Joystick(
-                      onChange: (Offset delta) => game.angularVelChange(delta),
-                    ),
+                  SizedBox(height: 100),
+                  Row(
+                    children: [
+                      SizedBox(width: 75),
+                      Transform.translate(
+                        offset: Offset(10, 57),
+                        child: Joystick(
+                          onChange: (Offset delta) =>
+                              game.angularVelChange(delta),
+                        ),
+                      ),
+                      Spacer(),
+                      Transform.translate(
+                        offset: Offset(20, 0),
+                        child: MySlider(
+                          onChange: (Offset delta) =>
+                              game.linearVelChange(delta),
+                        ),
+                      ),
+                      SizedBox(width: 100),
+                    ],
                   ),
-                  Spacer(),
-                  Transform.translate(
-                    offset: Offset(20, 0),
-                    child: MySlider(
-                      onChange: (Offset delta) => game.linearVelChange(delta),
-                    ),
-                  ),
-                  SizedBox(width: 100),
+                  SizedBox(height: 24),
                 ],
               ),
-              SizedBox(height: 24),
             ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }
