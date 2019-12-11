@@ -176,7 +176,7 @@ class _MyJoystickState extends State<MyJoystick> {
       if (_stringURL != null) {
         _stringURL = null;
       } else {
-        _stringURL = "http://www.youtube.com/watch?v=EEIk7gwjgIM";
+        _stringURL = "http://192.168.1.10:8082";
       }
     });
   }
@@ -197,24 +197,20 @@ class _MyJoystickState extends State<MyJoystick> {
             tooltip: 'Increment',
             child: Icon(_stringURL == null ? Icons.play_arrow : Icons.pause),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
           body: Stack(
             children: [
               //Robots Vision Layer
-
-              Container(
-                child: new VlcPlayer(
-                  defaultWidth: 640,
-                  defaultHeight: 480,
-                  url: _stringURL,
-                  controller: _vlcPlayerController,
-                  placeholder: Container(),
+             new VlcPlayer(
+                defaultWidth: 640,
+                defaultHeight: 480,
+                url: _stringURL,
+                controller: _vlcPlayerController,
+                placeholder: Container(
+                  color: Colors.green,
                 ),
-                color: Colors.black,
-                width: controlsX,
-                height: controlsY,
-              ),
-              //Robots Controls Layer
+              ),//Robots Controls Layer
               Column(
                 children: [
                   SizedBox(height: 100),
