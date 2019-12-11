@@ -165,7 +165,7 @@ class _MyJoystickState extends State<MyJoystick> {
   VlcPlayerController _vlcPlayerController;
   final BoardGame game = BoardGame(myController.text);
 
-  @override
+   @override
   void initState() {
     super.initState();
     _vlcPlayerController = new VlcPlayerController();
@@ -176,7 +176,7 @@ class _MyJoystickState extends State<MyJoystick> {
       if (_stringURL != null) {
         _stringURL = null;
       } else {
-        _stringURL = "http://192.168.1.10:8082";
+        _stringURL = "http://192.168.43.221:8082";
       }
     });
   }
@@ -188,7 +188,6 @@ class _MyJoystickState extends State<MyJoystick> {
     print(controlsY);
     double controlsX = MediaQuery.of(context).size.width;
     print(controlsX);
-
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
@@ -202,6 +201,7 @@ class _MyJoystickState extends State<MyJoystick> {
           body: Stack(
             children: [
               //Robots Vision Layer
+             _stringURL != null ?
              new VlcPlayer(
                 defaultWidth: 640,
                 defaultHeight: 480,
@@ -210,7 +210,14 @@ class _MyJoystickState extends State<MyJoystick> {
                 placeholder: Container(
                   color: Colors.green,
                 ),
-              ),//Robots Controls Layer
+              ) 
+              :
+              Center(
+                child: Text("Stream Closed"),
+              )
+              ,
+
+             //Robots Controls Layer
               Column(
                 children: [
                   SizedBox(height: 100),
