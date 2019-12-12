@@ -18,7 +18,7 @@ class BoardGame extends Game {
   String speed = "s0.000";
   String result = "k0.000s0.000";
   double maxVAngle = 0.5;
-  double maxLSpeed = 2.5;
+  double maxLSpeed = 1.5;
 
   BoardGame(String IPaddr) {
     ////print(IPaddr);
@@ -68,6 +68,17 @@ class BoardGame extends Game {
     double vAng = 0.0;
     double radAngle = atan2(offset.dy, offset.dx);
     command = "k";
+
+    /*
+     if (dragging) {
+      double _radAngle = atan2(dragPosition.dy - backgroundRect.center.dy,
+          dragPosition.dx - backgroundRect.center.dx);
+      double vAng = 0.0;
+
+      // Update playerShip's player rad angle
+      game.grace.lastMoveRadAngle = _radAngle;
+      print(_radAngle);
+    */
 
     if (offset.dy == 0 && offset.dx == 0) {
       command = "k";

@@ -10,15 +10,22 @@ You can find here detailed information about the (sub)product, hereby mentioned 
 * Requirements
   * [Use Case Diagram](#Use-case-diagram)
   * [User stories](#User-stories)
-  * [Domain model](#Domain-model)
+     * [Implemented](#Implemented)
+     * [To be Implemented](#To-be-Implemented)
+  * [Domain Model](#Domain-model)
 * Architecture and Design
-  * [Logical architecture](#Logical-architecture)
-  * [Physical architecture](#Physical-architecture)
+  * [Logical Architecture](#Logical-architecture)
+  * [Physical Architecture](#Physical-architecture)
   * [Prototype](#Prototype)
 * [Implementation](#Implementation)
 * [Test](#Test)
-* [Configuration and change management](#Configuration-and-change-management)
-* [Project management](#Project-management)
+* [Configuration and Change Management](#Configuration-and-change-management)
+* [Project Management](#Project-management)
+* [Installation Guide](#Installation-guide)
+   * [Prerequisites](#Prerequisites)
+   * [Building](#Building)
+   * [Running](#Running)
+  * [Optional Resources](#Optional-Resources)
 
 So far, contributions are exclusively made by the initial team, but we hope to open them to the community, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
 

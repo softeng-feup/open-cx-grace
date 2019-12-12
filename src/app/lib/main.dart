@@ -165,7 +165,7 @@ class _MyJoystickState extends State<MyJoystick> {
   VlcPlayerController _vlcPlayerController;
   final BoardGame game = BoardGame(myController.text);
 
-   @override
+  @override
   void initState() {
     super.initState();
     _vlcPlayerController = new VlcPlayerController();
@@ -176,7 +176,7 @@ class _MyJoystickState extends State<MyJoystick> {
       if (_stringURL != null) {
         _stringURL = null;
       } else {
-        _stringURL = "http://192.168.43.221:8082";
+        _stringURL = "http://" + myController.text + ":8082";
       }
     });
   }
@@ -201,48 +201,67 @@ class _MyJoystickState extends State<MyJoystick> {
           body: Stack(
             children: [
               //Robots Vision Layer
-             _stringURL != null ?
-             new VlcPlayer(
-                defaultWidth: 640,
-                defaultHeight: 480,
-                url: _stringURL,
-                controller: _vlcPlayerController,
-                placeholder: Container(
-                  color: Colors.green,
-                ),
-              ) 
-              :
-              Center(
-                child: Text("Stream Closed"),
-              )
-              ,
-
-             //Robots Controls Layer
+              _stringURL != null
+                  ? Center(
+                      child: Container(
+                          child: new VlcPlayer(
+                        defaultWidth: controlsX.toInt(),
+                        defaultHeight: controlsY.toInt(),
+                        url: _stringURL,
+                        controller: _vlcPlayerController,
+                        placeholder: Container(
+                          color: Colors.lightBlue[900],
+                        ),
+                      )),
+                    )
+                  : Container(
+                      child: Center(
+                        child: RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: "GraceVision OFF",
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ))
+                          ]),
+                        ),
+                      ),
+                      color: Colors.lightBlue[700],
+                    ),
+              //Robots Controls Layer
               Column(
                 children: [
-                  SizedBox(height: 100),
+                  SizedBox(height: controlsY / 4.114),
                   Row(
                     children: [
-                      SizedBox(width: 75),
-                      Transform.translate(
-                        offset: Offset(10, 57),
-                        child: Joystick(
-                          onChange: (Offset delta) =>
-                              game.angularVelChange(delta),
+                      SizedBox(width: controlsX / 10.971),
+                      Transform.scale(
+                        scale: controlsY / 411.428 * 2,
+                        child: Transform.translate(
+                          offset: Offset(controlsX / 27.43, controlsY / 8.754),
+                          child: Joystick(
+                            onChange: (Offset delta) =>
+                                game.angularVelChange(delta),
+                          ),
                         ),
                       ),
                       Spacer(),
-                      Transform.translate(
-                        offset: Offset(20, 0),
-                        child: MySlider(
-                          onChange: (Offset delta) =>
-                              game.linearVelChange(delta),
+                      Transform.scale(
+                        scale: controlsY / 411.428 * 1.5,
+                        child: Transform.translate(
+                          offset: Offset(controlsX / (-82.286), 0),
+                          child: MySlider(
+                            onChange: (Offset delta) =>
+                                game.linearVelChange(delta),
+                          ),
                         ),
                       ),
-                      SizedBox(width: 100),
+                      SizedBox(width: controlsX / 8.229),
                     ],
                   ),
-                  SizedBox(height: 24),
+                  SizedBox(height: controlsY / 17.143),
                 ],
               ),
             ],
