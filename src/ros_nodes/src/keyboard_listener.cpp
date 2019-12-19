@@ -83,10 +83,6 @@ void publish_vel()
   // Otherwise if it corresponds to a key in speedBindings
   else if (speedBindings.count(key) == 1)
   {
-    // Grab the speed data
-    //speed = speed * speedBindings[key][0];
-    //turn = turn * speedBindings[key][1];
-
     //printf("\rCurrent: speed %f\tturn %f | Last command: %c   ", speed, turn, key);
   }
   // Otherwise, set the robot to stop
@@ -123,7 +119,7 @@ void publish_vel()
 void get_connection(int server_fd)
 {
   int addrlen = sizeof(address);
-  printf("dentro do get connection\n");
+  printf("*Getting connection*\n");
   fflush(stdout);
 
   while ((the_socket = accept(server_fd, (struct sockaddr *)&address,
@@ -136,15 +132,17 @@ void get_connection(int server_fd)
   fflush(stdout);
 
   connected = true;
-  alarm(3);
+  //ualarm(500000,0);
+  alarm(1);
 }
 
 void read_socket()
 {
   int valread;
   char buffer[255];
-
-  printf("dentro do read socket\n");
+  turn = 0;
+  speed = 0;
+  printf("*Reading from socket*\n");
   fflush(stdout);
 
   while (connected)
@@ -161,7 +159,8 @@ void read_socket()
       {
         if (check_flag(buffer[i]))
         {
-          alarm(3);
+          //ualarm(500000,0);
+          alarm(1);
           key = buffer[i]; //vang.at(0);
 
           if (key != 'k')
@@ -189,6 +188,7 @@ void read_socket()
     else
     {
       key = 'k';
+      printf("*Stopping*\n");
       publish_vel();
     }
   }
@@ -200,6 +200,8 @@ void try_to_reconnect(int c)
   fflush(stdout);
   connected = false;
   key = 'k';
+  turn = 0;
+  speed = 0;
   publish_vel();
   printf("\nI'm still disconnected\n");
   fflush(stdout);

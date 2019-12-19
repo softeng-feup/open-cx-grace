@@ -3,12 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:grace/slider.dart';
 import 'package:flutter_vlc_player/vlc_player.dart';
 import 'package:flutter_vlc_player/vlc_player_controller.dart';
+import 'dart:io';
 
 import 'grace.dart';
 import 'joystick.dart';
 
 final myController = TextEditingController();
-
+BoardGame game;
 void main() async {
   // Force landscape device left orientation
   await SystemChrome.setPreferredOrientations(
@@ -96,6 +97,9 @@ class HomePage extends StatelessWidget {
                     color: Colors.blue[800],
                     textColor: Colors.white,
                     onPressed: () {
+                      if(game == null){
+                        game = BoardGame(myController.text);
+                      }
                       Navigator.of(context).pushNamed("/grace_controller");
                     })
               ]),
@@ -163,7 +167,11 @@ class MyJoystick extends StatefulWidget {
 class _MyJoystickState extends State<MyJoystick> {
   String _stringURL;
   VlcPlayerController _vlcPlayerController;
-  final BoardGame game = BoardGame(myController.text);
+
+  void reconnect() async {
+    print('Reconnecting');
+    game.socket = await Socket.connect(game.ip, 8080);
+  }
 
   @override
   void initState() {
@@ -200,6 +208,7 @@ class _MyJoystickState extends State<MyJoystick> {
               FloatingActionButtonLocation.centerFloat,
           body: Stack(
             children: [
+              game.widget,
               //Robots Vision Layer
               _stringURL != null
                   ? Center(
@@ -233,7 +242,22 @@ class _MyJoystickState extends State<MyJoystick> {
               //Robots Controls Layer
               Column(
                 children: [
-                  SizedBox(height: controlsY / 4.114),
+                  Center(
+                child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Text("Reconnect"),
+                    color: Colors.blue[800],
+                    textColor: Colors.white,
+                    onPressed: () {
+                      if(game.socket != null){
+                        reconnect();
+                      }
+                      Navigator.of(context).pushNamed("/grace_controller");
+                    }),
+              ),
+                  SizedBox(height: controlsY / 15.5),
+
                   Row(
                     children: [
                       SizedBox(width: controlsX / 10.971),

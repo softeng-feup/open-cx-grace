@@ -14,6 +14,7 @@ class BoardGame extends Game {
   double tileSize;
 
   Socket socket;
+  String ip;
   String command = "k0.000";
   String speed = "s0.000";
   String result = "k0.000s0.000";
@@ -28,6 +29,7 @@ class BoardGame extends Game {
   void initialize(String IPaddr) async {
     resize(await Flame.util.initialDimensions());
     socket = await Socket.connect(IPaddr, 8080);
+    ip = IPaddr;
   }
 
   void resize(Size size) {
@@ -38,6 +40,7 @@ class BoardGame extends Game {
   @override
   void render(Canvas canvas) {
     if (screenSize == null) {
+      print('Screen size null\n');
       return;
     }
     canvas.drawRect(
@@ -54,10 +57,11 @@ class BoardGame extends Game {
   @override
   void update(double t) {
     if (screenSize == null) {
+      print('Screen size null\n');
       return;
     }
     result = command + speed;
-    print(result);
+    //print(result);
     if (socket != null) {
       socket.write(result);
       result = "k0.000s0.000";

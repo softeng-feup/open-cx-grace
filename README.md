@@ -147,10 +147,7 @@ For each user story you should write also the acceptance tests 'textually in Ghe
 [comment]: <> (**Value and effort**.
 At the end, it is good to add a rough indication of the value of the user story to the customers 'e.g. [MoSCoW]'https://en.wikipedia.org/wiki/MoSCoW_method' method' and the team should add an estimation of the effort to implement it, for example, using t-shirt sizes 'XS, S, M, L, XL'.)
 
-[comment]: <> (### Domain model
-To better understand the context of the software system, it is very useful to have a simple UML class diagram with all the key concepts 'names, attributes' and relationships involved of the problem domain addressed by your module.)
-
-There two main user roles: the **conference participant** and the **administrator**. The former summons Grace and the latter controls it.
+There are two main user roles: the **conference participant** and the **administrator**. The former summons Grace and the latter controls it.
 
 #### Implemented
 
@@ -232,6 +229,12 @@ There two main user roles: the **conference participant** and the **administrato
 &nbsp; **Value Category:** Could Have <br>
 &nbsp; **Effort:** M
 
+### Domain model
+
+![Domain Model Diagram][domain model]
+
+[comment]: <> (To better understand the context of the software system, it is very useful to have a simple UML class diagram with all the key concepts 'names, attributes' and relationships involved of the problem domain addressed by your module.)
+
 ---
 
 ## Architecture and Design
@@ -241,7 +244,7 @@ The architecture of a software system encompasses the set of key decisions about
 
 * **Raspberry Pi:** Runs **Robot Operative System (ROS)** on **Raspbian** (**ROSberryPi**) that interprets commands received through **Sockets** and sends it to the robot. 
 
-* **Mobile App:** This the frontend component of the system, used by the user/admin to communicate with Grace through **Web Sockets**.
+* **Mobile App:** This the frontend component of the system, used by the user/admin to communicate with Grace through **Sockets**.
 
 [comment]: <> (A well written architecture document is brief but reduces the amount of time it takes new programmers to a project to understand the code to feel able to make modifications and enhancements.)
 
@@ -254,17 +257,20 @@ The architecture of a software system encompasses the set of key decisions about
 
 [comment]: <> (It can be beneficial to present the system both in a horizontal or vertical decomposition: horizontal decomposition may define layers and implementation concepts, such as the user interface, business logic and concepts; vertical decomposition can define a hierarchy of subsystems that cover all layers of implementation.)
 
-The mobile application will allow the user/admin to control the robot's moves (via joystick). Depending on the indicated move, the app will send a different message to the "publisher node" (explained next) and therefore to the robot, through a **Web Socket**.
-On the **Robot Operative System (ROS) Melodic** side of the project, two nodes are communicating under the *Publisher-Subscriber* protocol. One of them (*publisher*) will be receiving data from a **Web Socket**, translating them into a `geometry_msgs/Twist` type of message and publishing them to the `cmd_vel` topic. The other node (*subscriber*) will be using the received data to give instructions to the robot's motor.
+The mobile application will allow the user/admin to control the robot's moves (via joystick). Depending on the indicated move, the app will send a different message to the "publisher node" (explained next) and therefore to the robot, through a **Socket**.
 
 ![Publisher-Subscriber Diagram][pub_sub diagram]
+
+On the **Robot Operative System (ROS) Melodic** side of the project, two nodes are communicating under the *Publisher-Subscriber* protocol. One of them (*publisher*) will be receiving data from a **Socket**, translating them into a `geometry_msgs/Twist` type of message and publishing them to the `cmd_vel` topic. The other node (*subscriber*) will be using the received data to give instructions to the robot's motor.
+
+![Logical Architecture Diagram][logical architecture]
 
 ### Physical Architecture
 [comment]: <> (The goal of this subsection is to document the high-level physical structure of the software system 'machines, connections, software components installed, and their dependencies' using UML deployment diagrams or component diagrams 'separate or integrated', showing the physical structure of the system.)
 
 [comment]: <> (It should describe also the technologies considered and justify the selections made. Examples of technologies relevant for openCX are, for example, frameworks for mobile applications 'Flutter vs ReactNative vs ...', languages to program with microbit, and communication with things 'beacons, sensors, etc.'.)
 
-For Grace to move, there are several **mechanical parts** powered by two motors and batteries. These parts are controlled by an **Arduino** that is connected to a **Raspberry Pi 4** through **USB**. The RPI is running **Robot Operative System (ROS) Melodic** on **Raspbian Buster** (**ROSberryPi**) and contains a ROS package to interpret commands received through **Web Sockets** and another to control the motion of the robot. Such instructions are input from a **mobile app** used by the user/admin, which was built with **Flutter**, an open-source UI software development kit that builds natively compiled applications from a single codebase.
+For Grace to move, there are several **mechanical parts** powered by two motors and batteries. These parts are controlled by an **Arduino** that is connected to a **Raspberry Pi 4** through **USB**. The RPI is running **Robot Operative System (ROS) Melodic** on **Raspbian Buster** (**ROSberryPi**) and contains a ROS package to interpret commands received through **Sockets** and another to control the motion of the robot. Such instructions are input from a **mobile app** used by the user/admin, which was built with **Flutter**, an open-source UI software development kit that builds natively compiled applications from a single codebase.
 
 ![UML Deplyment Diagram][uml deployment diagram]
 
@@ -343,7 +349,7 @@ Software project management is an art and science of planning and leading softwa
 
 [comment]: <> (We recommend to use the simplest tool that can possibly work for the team.)
 
-For this we used [Trello.com](https://trello.com), a simple project management tool capable of registering tasks, assign tasks to people, add estimations to tasks, monitor tasks progress, and therefore being able to track our project.
+For this we used [Trello.com](https://trello.com/b/8rxoEWNz/grace), a simple project management tool capable of registering tasks, assign tasks to people, add estimations to tasks, monitor tasks progress, and therefore being able to track our project.
 
 The following image shows our project's progress:
 
@@ -411,6 +417,8 @@ $ rosrun grace keyboard_listener
 [pub_sub diagram]: ./res/pub_sub.jpg "Publisher-subscriber Diagram"
 [joystick mockup]: ./res/joystick_mockup.jpeg "Joystick Mockup"
 [app mockup]: ./res/app_mockup.png "App Mockup"
+[logical architecture]: ./res/logical_architecture.png "Logical Architecure Diagram"
+[domain model]: ./res/domain_model.png "Domain Model Diagram"
 
 [comment]: <> ( ------------------------------------------------------- )
 [comment]: <> ( ------------------------ LINKS ------------------------ )
