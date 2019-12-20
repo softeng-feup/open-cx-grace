@@ -372,7 +372,15 @@ The following image shows our project's progress:
 ### Prerequisites
 * Install Robot Operative System (ROS) Melodic. We used specifically **ROSberryPi**, a ROS Melodic distro for Raspbian Buster, but any Ubuntu version will do (Ubuntu 18.04.3 LTS is recommended).
 
+* Install Motion, a video streaming software solution essential for the GraceVision feature. You can do this by running the following command:
+
+```
+$ sudo apt-get install motion
+```
+
 * Find the Raspberry Pi's IP address. You will need this information in order to remotely control Grace through the app.
+
+* Once that is done, simply replace the file motion.conf in the /etc/motion/ directory by [this one][motion conf file]. Repeat the same process with the /etc/default/motion file by replacing it by [this one][motion file].
 
 ```
 $ hostname -I
@@ -428,3 +436,5 @@ $ rosrun grace keyboard_listener
 [src folder]: https://github.com/softeng-feup/grace/tree/master/src "Source Folder"
 [app module]: https://github.com/softeng-feup/grace/tree/master/src/app "App Module"
 [ros nodes module]: https://github.com/softeng-feup/grace/tree/master/src/ros_nodes "ROS Nodes Module"
+[motion file]: https://github.com/softeng-feup/grace/tree/master/src/motion/motion "Motion File"
+[motion conf file]: https://github.com/softeng-feup/grace/tree/master/src/motion/motion.conf "Motion Conf File"
